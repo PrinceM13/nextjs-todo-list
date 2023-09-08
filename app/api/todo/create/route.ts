@@ -1,8 +1,8 @@
 import connectMongo from "@/utils-backend/connection/mongodb";
 import { collection } from "@/utils-backend/model";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { topic, detail, dueDate, member, status } = await req.json();
   await connectMongo();
   await collection.TodoModel.create({
