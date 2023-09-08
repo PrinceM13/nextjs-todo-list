@@ -1,3 +1,9 @@
-export default function ResetPasswordPage() {
-  return <main>Reset Password Page</main>;
+import { Form, Layout } from "@/components";
+
+export default function ResetPasswordPage(): JSX.Element {
+  return (
+    <Layout.FormPage title="Reset Password">
+      <Form.ResetPassword />
+    </Layout.FormPage>
+  );
 }
