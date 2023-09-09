@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-import config from "@/utils-backend/config";
+import { config } from "@/utils-backend";
 
 const url = config.db.url;
 
-const connectMongo = async () => {
+const connectMongodb = async () => {
   try {
     await mongoose.connect(url);
     mongoose.connection.on("error", (error) => {
@@ -21,4 +21,4 @@ const connectMongo = async () => {
   }
 };
 
-export default connectMongo;
+export default connectMongodb;

@@ -5,10 +5,10 @@ import type { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     // * create document in mongodb (await to wait for the result)
-    await controller.basic.createDocument("TodoModel", request);
+    await controller.basic.createDocument("UserModel", request);
 
     // * return response with status code 201
-    return NextResponse.json({ message: "todo item was created !" }, { status: 201 });
+    return NextResponse.json({ message: "user was created !" }, { status: 201 });
   } catch (error: any) {
     // * log error to console
     console.log(error);
