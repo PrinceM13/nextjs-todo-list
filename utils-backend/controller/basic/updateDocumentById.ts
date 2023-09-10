@@ -40,6 +40,6 @@ export default async function updateDocumentById({
     new Types.ObjectId(id)
   );
 
-  // * return all documents with status code 200
+  // * return updated document with status code 200
   return NextResponse.json(updatedDocument, { status: 200 });
 }
