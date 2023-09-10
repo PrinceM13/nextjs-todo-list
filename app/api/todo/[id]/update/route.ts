@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 import type { IApi } from "@/interfaces/backend";
 import type { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest, context: IApi.IContext) {
+export async function PATCH(request: NextRequest, context: IApi.IContext) {
   try {
     // * get all todos from mongodb
-    const response: NextResponse = await controller.basic.getDocumentById({
-      modelName: "UserModel",
+    const response: NextResponse = await controller.basic.updateDocumentById({
+      modelName: "TodoModel",
       request,
       context
     });

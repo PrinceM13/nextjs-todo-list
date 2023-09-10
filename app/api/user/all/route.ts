@@ -18,6 +18,6 @@ export async function GET(request: NextRequest) {
     console.log(error);
 
     // * return error response with proper status code
-    return NextResponse.json(error.message, { status: error.status ?? 500 });
+    return NextResponse.json(error.message, { status: error.status ?? 400 });
   }
 }
