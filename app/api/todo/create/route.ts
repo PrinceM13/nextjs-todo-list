@@ -1,14 +1,18 @@
 import { controller, errorResponse } from "@/utils-backend";
 import { NextResponse } from "next/server";
+
 import type { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
     // * create document in mongodb (await to wait for the result)
-    await controller.basic.createDocument("TodoModel", request);
+    const response: NextResponse = await controller.basic.createDocument({
+      modelName: "TodoModel",
+      request
+    });
 
-    // * return response with status code 201
-    return NextResponse.json({ message: "todo item was created !" }, { status: 201 });
+    // * return response from controller
+    return response;
   } catch (error: any) {
     // * log error to console
     console.log(error);

@@ -10,5 +10,5 @@ const mongodbErrorStatus: MongodbErrorStatus = {
 
 export default function mongodbErrorResponse(error: Error) {
   const { name, message } = error;
-  return { message, status: mongodbErrorStatus[name] ?? 500 };
+  return { message, status: mongodbErrorStatus[name] ?? 400 };
 }
