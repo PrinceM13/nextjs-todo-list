@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import type { Document } from "mongoose";
 import type { IController } from "@/interfaces/backend";
 
-export default async function getAllDocument({
+export default async function getAllDocuments({
   modelName
 }: IController.IBasic): Promise<NextResponse> {
   // * connect to mongodb

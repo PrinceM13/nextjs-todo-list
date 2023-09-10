@@ -1,4 +1,5 @@
 import createDocument from "./createDocument";
-import getAllDocument from "./getAllDocument";
+import getAllDocuments from "./getAllDocuments";
+import getDocumentById from "./getDocumentById";
 
-export { createDocument, getAllDocument };
+export { createDocument, getAllDocuments, getDocumentById };

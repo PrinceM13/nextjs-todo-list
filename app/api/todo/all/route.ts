@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     // * get all todos from mongodb
-    const response: NextResponse = await controller.basic.getAllDocument({
+    const response: NextResponse = await controller.basic.getAllDocuments({
       modelName: "TodoModel",
       request
     });

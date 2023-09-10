@@ -1,3 +1,4 @@
+import * as IApi from "./api";
 import * as IController from "./controller";
 
-export { IController };
+export { IApi, IController };

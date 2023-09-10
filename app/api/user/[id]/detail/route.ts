@@ -1,14 +1,16 @@
 import { controller } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
+import type { IApi } from "@/interfaces/backend";
 import type { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, context: IApi.IContext) {
   try {
     // * get all todos from mongodb
-    const response: NextResponse = await controller.basic.getAllDocuments({
+    const response: NextResponse = await controller.basic.getDocumentById({
       modelName: "UserModel",
-      request
+      request,
+      context
     });
 
     // * return response from controller
