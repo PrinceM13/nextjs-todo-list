@@ -1,3 +1,5 @@
 import * as basic from "./basic";
 
-export { basic };
+import register from "./register";
+
+export { basic, register };
