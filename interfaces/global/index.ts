@@ -1,4 +1,5 @@
 export interface IUserDocumentProps {
+  _id?: string;
   email: string;
   password: string;
   displayName: string;
@@ -9,6 +10,7 @@ export interface IUserDocumentProps {
 }
 
 export interface ITodoDocumentProps {
+  _id?: string;
   topic: string;
   detail?: string;
   dueDate?: string;

@@ -3,7 +3,7 @@ import { connection, model } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
 import type { IController } from "@/interfaces/backend";
-import type { ITodoDocumentProps, IUserDocumentProps } from "@/interfaces/global";
+import type { IUserDocumentProps } from "@/interfaces/global";
 
 export default async function register({
   modelName,
@@ -21,10 +21,10 @@ export default async function register({
   await connection.mongodb();
 
   // check if email is already in use and return error response with status code 400
-  const isEmailInUse: IUserDocumentProps[] = await model.collection[modelName].find({
+  const user: IUserDocumentProps | null = await model.collection[modelName].findOne({
     email: document.email
   });
-  if (isEmailInUse.length > 0) {
+  if (user) {
     return NextResponse.json("Email already in use", { status: 400 });
   }
 
@@ -32,9 +32,7 @@ export default async function register({
   document.password = await bcrypt.hash(document.password, 12);
 
   // * create document in mongodb
-  const createdDocument = (await model.collection[modelName].create(document)) as
-    | IUserDocumentProps
-    | ITodoDocumentProps;
+  const createdDocument: IUserDocumentProps = await model.collection[modelName].create(document);
 
   // * return response with status code 201
   return NextResponse.json("User created successfully, waiting for verification", {
