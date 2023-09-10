@@ -2,8 +2,8 @@ import { Types } from "mongoose";
 import { connection, model } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
-import type { Document } from "mongoose";
 import type { IController } from "@/interfaces/backend";
+import type { ITodoDocumentProps, IUserDocumentProps } from "@/interfaces/global";
 
 export default async function getDocumentById({
   modelName,
@@ -21,9 +21,10 @@ export default async function getDocumentById({
   await connection.mongodb();
 
   // * get document from mongodb
-  const document: Document | null = await model.collection[modelName].findById(
-    new Types.ObjectId(id)
-  );
+  const document = (await model.collection[modelName].findById(new Types.ObjectId(id))) as
+    | IUserDocumentProps
+    | ITodoDocumentProps
+    | null;
 
   // * check if document is null and return error response with status code 404
   if (!document) {

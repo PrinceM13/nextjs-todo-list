@@ -1,8 +1,8 @@
 import { connection, model } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
-import type { Document } from "mongoose";
 import type { IController } from "@/interfaces/backend";
+import type { ITodoDocumentProps, IUserDocumentProps } from "@/interfaces/global";
 
 export default async function getAllDocuments({
   modelName
@@ -11,7 +11,10 @@ export default async function getAllDocuments({
   await connection.mongodb();
 
   // * get all documents from mongodb
-  const documents: Document[] = await model.collection[modelName].find({});
+  const documents = (await model.collection[modelName].find({})) as (
+    | IUserDocumentProps
+    | ITodoDocumentProps
+  )[];
 
   // * return all documents with status code 200
   return NextResponse.json(documents, { status: 200 });

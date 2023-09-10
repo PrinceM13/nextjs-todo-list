@@ -2,8 +2,8 @@ import { Types } from "mongoose";
 import { connection, model } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
-import type { Document } from "mongoose";
 import type { IController } from "@/interfaces/backend";
+import type { ITodoDocumentProps, IUserDocumentProps } from "@/interfaces/global";
 
 export default async function updateDocumentById({
   modelName,
@@ -11,7 +11,7 @@ export default async function updateDocumentById({
   context
 }: IController.IBasic): Promise<NextResponse> {
   // * get document from request body
-  const updateContent: Document = await request?.json();
+  const updateContent = (await request?.json()) as IUserDocumentProps | ITodoDocumentProps;
 
   // * get id from context
   const id = context?.params.id;
@@ -25,10 +25,10 @@ export default async function updateDocumentById({
   await connection.mongodb();
 
   // * find document by id and update it
-  const currentDocument: Document | null = await model.collection[modelName].findByIdAndUpdate(
+  const currentDocument = (await model.collection[modelName].findByIdAndUpdate(
     new Types.ObjectId(id),
     updateContent
-  );
+  )) as IUserDocumentProps | ITodoDocumentProps | null;
 
   // * check if document is null and return error response with status code 404
   if (!currentDocument) {
@@ -36,9 +36,10 @@ export default async function updateDocumentById({
   }
 
   // * find document by id and return it
-  const updatedDocument: Document | null = await model.collection[modelName].findById(
-    new Types.ObjectId(id)
-  );
+  const updatedDocument = (await model.collection[modelName].findById(new Types.ObjectId(id))) as
+    | IUserDocumentProps
+    | ITodoDocumentProps
+    | null;
 
   // * return updated document with status code 200
   return NextResponse.json(updatedDocument, { status: 200 });
