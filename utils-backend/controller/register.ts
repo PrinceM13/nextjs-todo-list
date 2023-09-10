@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
-import { connection, model } from "@/utils-backend";
+import { randomUUID } from "crypto";
+import { connection, model, nodemailer } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
 import type { IController } from "@/interfaces/backend";
@@ -31,8 +32,20 @@ export default async function register({
   // * hash password with bcrypt
   document.password = await bcrypt.hash(document.password, 12);
 
+  // * generate verification token
+  document.verificationToken = randomUUID().replace(/-/g, "");
+  // * set verification token expires at 24 hours
+  document.verificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
   // * create document in mongodb
   const createdDocument: IUserDocumentProps = await model.collection[modelName].create(document);
+
+  // * send verification email
+  await nodemailer.sendVerificationEmail(
+    createdDocument.email,
+    createdDocument.displayName ?? "",
+    createdDocument.verificationToken ?? ""
+  );
 
   // * return response with status code 201
   return NextResponse.json("User created successfully, waiting for verification", {

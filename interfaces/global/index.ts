@@ -2,9 +2,13 @@ export interface IUserDocumentProps {
   _id?: string;
   email: string;
   password: string;
-  displayName: string;
+  displayName?: string;
   session?: string;
   isActive?: boolean;
+  verificationToken?: string;
+  verificationTokenExpiresAt?: Date;
+  resetPasswordToken?: string;
+  resetPasswordTokenExpiresAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
