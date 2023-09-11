@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { axios } from "@/utils-frontend";
-import { Button, Input } from "@/components/base";
 import { Spinner } from "@/components";
+import { Button, Input } from "@/components/base";
 import { ITodoDocumentProps } from "@/interfaces/global";
 
 export default function TodoListPage(): JSX.Element {
+  // * router
+  const router = useRouter();
+
   // * todo list state
   const [todoList, setTodoList] = useState<ITodoDocumentProps[]>([]);
 
@@ -19,7 +23,7 @@ export default function TodoListPage(): JSX.Element {
     const fetchTodoList = async () => {
       try {
         const res = await axios("/todo/all");
-        setTodoList(res.data);
+        setTodoList(res.data.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -31,7 +35,7 @@ export default function TodoListPage(): JSX.Element {
 
   return (
     <>
-      <main className="flex flex-col gap-8">
+      <main className="flex flex-col gap-8 py-10">
         <header className="text-4xl text-center">Todo List</header>
 
         {/* filter by member */}
@@ -54,13 +58,14 @@ export default function TodoListPage(): JSX.Element {
             <div
               key={idx}
               className="flex flex-col justify-between gap-2 p-8 rounded-xl bg-yellow-200 hover:bg-yellow-300 shadow-xl cursor-pointer"
+              onClick={() => router.push(`/todo-list/${todo._id}`)}
             >
               <div className="flex-1 flex gap-2">
                 <input type="checkbox" />
                 <div>Status</div>
               </div>
               <div>{todo.topic}</div>
-              {todo && todo?.member?.map((member, idx) => <div>{member.name}</div>)}
+              {todo && todo?.member?.map((member, idx) => <div key={idx}>{member.name}</div>)}
               <div>{todo.dueDate}</div>
             </div>
           ))}

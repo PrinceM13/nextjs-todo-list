@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 
 import FormFrame from "../FormFrame";
 import { axios } from "@/utils-frontend";
+import { useModal } from "@/hook";
 import { Button, Input } from "@/components/base";
-import { Layout, Modal, Spinner } from "@/components";
+import { Layout, Spinner } from "@/components";
 
 interface LoginInput {
   email: string;
@@ -23,12 +24,10 @@ export default function LoginForm(): JSX.Element {
   // * input state
   const [loginInput, setLoginInput] = useState<LoginInput>(initialLoginInput);
 
-  // TODO: might refactor with custom hook
+  // * use modal hook
+  const { openModal, CustomModal } = useModal();
 
-  // * modal and spinner state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
+  // * spinner state
   const [isLoading, setIsLoading] = useState(false);
 
   // * handle input change
@@ -43,8 +42,11 @@ export default function LoginForm(): JSX.Element {
 
     try {
       const res = await axios.post("/auth/login", loginInput);
-      setModalTitle("Success");
-      setModalMessage(res.data.message);
+      openModal({
+        title: "Success",
+        message: res.data.message,
+        type: "success"
+      });
       setLoginInput(initialLoginInput);
 
       // * redirect to todo list page
@@ -53,11 +55,13 @@ export default function LoginForm(): JSX.Element {
       }, 1000);
     } catch (error: any) {
       console.log(error);
-      setModalTitle("Error");
-      setModalMessage(error.response.data.message);
+      openModal({
+        title: "Error",
+        message: error.response.data.message,
+        type: "danger"
+      });
     } finally {
       setIsLoading(false);
-      setIsModalOpen(true);
     }
   };
 
@@ -82,19 +86,7 @@ export default function LoginForm(): JSX.Element {
       </FormFrame>
 
       {/* modal */}
-      <Modal title={modalTitle} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div
-          className={`${
-            modalTitle === "Error"
-              ? "text-red-600"
-              : modalTitle === "Success"
-              ? "text-green-600"
-              : ""
-          }`}
-        >
-          {modalMessage}
-        </div>
-      </Modal>
+      <CustomModal />
 
       {/* spinner */}
       {isLoading && <Spinner.HourGlass />}

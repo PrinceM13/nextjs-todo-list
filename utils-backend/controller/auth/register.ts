@@ -58,7 +58,7 @@ export default async function register({
 
   // * return response with status code 201
   return NextResponse.json(
-    { message: "Sing up successful, please check your email for verification" },
+    { message: "Thank you for signing up, please check your email to verify your account" },
     {
       status: 201
     }

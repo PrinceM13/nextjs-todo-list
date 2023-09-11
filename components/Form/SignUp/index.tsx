@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 
 import FormFrame from "../FormFrame";
 import { axios } from "@/utils-frontend";
+import { useModal } from "@/hook";
+import { Layout, Spinner } from "@/components";
 import { Button, Input } from "@/components/base";
-import { Layout, Modal, Spinner } from "@/components";
 
 interface RegisterInput {
   email: string;
@@ -28,12 +29,10 @@ export default function SignUpForm(): JSX.Element {
   const [registerInput, setRegisterInput] = useState<RegisterInput>(initialRegisterInput);
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
 
-  // TODO: might refactor with custom hook
+  // * use modal hook
+  const { openModal, CustomModal } = useModal();
 
   // * modal and spinner state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // * check if password and confirm password match
@@ -57,24 +56,31 @@ export default function SignUpForm(): JSX.Element {
 
     // * user need to fix password mismatch before submiting
     if (!isPasswordMatch) {
-      setModalTitle("Error");
-      setModalMessage("Plesae fix password mismatch");
       setIsLoading(false);
-      setIsModalOpen(true);
-      return;
+      openModal({
+        title: "Error",
+        message: "Please fix password mismatch",
+        type: "danger"
+      });
     } else {
       try {
         const res = await axios.post("/auth/register", registerInput);
-        setModalTitle("Success");
-        setModalMessage(res.data.message);
+        openModal({
+          title: "Success",
+          message: res.data.message,
+          type: "success"
+        });
+
         setRegisterInput(initialRegisterInput);
       } catch (error: any) {
         console.log(error);
-        setModalTitle("Error");
-        setModalMessage(error.response.data.message);
+        openModal({
+          title: "Error",
+          message: error.response.data.message,
+          type: "danger"
+        });
       } finally {
         setIsLoading(false);
-        setIsModalOpen(true);
       }
     }
   };
@@ -118,19 +124,7 @@ export default function SignUpForm(): JSX.Element {
       </FormFrame>
 
       {/* modal */}
-      <Modal title={modalTitle} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div
-          className={`${
-            modalTitle === "Error"
-              ? "text-red-500"
-              : modalTitle === "Success"
-              ? "text-green-500"
-              : ""
-          }`}
-        >
-          {modalMessage}
-        </div>
-      </Modal>
+      <CustomModal />
 
       {/* spinner */}
       {isLoading && <Spinner.HourGlass />}
