@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     // * create document in mongodb (await to wait for the result)
-    const response: NextResponse = await controller.login({
+    const response: NextResponse = await controller.auth.login({
       modelName: "UserModel",
       request
     });

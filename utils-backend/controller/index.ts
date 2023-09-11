@@ -1,6 +1,4 @@
+import * as auth from "./auth";
 import * as basic from "./basic";
 
-import login from "./login";
-import register from "./register";
-
-export { basic, login, register };
+export { auth, basic };

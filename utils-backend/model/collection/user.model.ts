@@ -6,7 +6,11 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     displayName: { type: String, required: true },
     session: String,
-    isActive: { type: Boolean, default: false }
+    isActive: { type: Boolean, default: false },
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
+    resetPasswordToken: String,
+    resetPasswordTokenExpiresAt: Date
   },
   { timestamps: true }
 );
