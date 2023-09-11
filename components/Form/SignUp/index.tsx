@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import FormFrame from "../FormFrame";
+import { axios } from "@/utils-frontend";
 import { Button, Input } from "@/components/base";
 import { Layout, Modal, Spinner } from "@/components";
 
@@ -64,7 +64,7 @@ export default function SignUpForm(): JSX.Element {
       return;
     } else {
       try {
-        const res = await axios.post("/api/auth/register", registerInput);
+        const res = await axios.post("/auth/register", registerInput);
         setModalTitle("Success");
         setModalMessage(res.data.message);
         setRegisterInput(initialRegisterInput);

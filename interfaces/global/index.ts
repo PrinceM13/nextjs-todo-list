@@ -21,7 +21,7 @@ export interface ITodoDocumentProps {
   member?: {
     user_id?: string;
     name?: string;
-  };
+  }[];
   status?: boolean;
   view?: number;
   isActive?: boolean;

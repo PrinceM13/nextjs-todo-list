@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import FormFrame from "../FormFrame";
+import { axios } from "@/utils-frontend";
 import { Button, Input } from "@/components/base";
 import { Layout, Modal, Spinner } from "@/components";
 
@@ -42,7 +42,7 @@ export default function LoginForm(): JSX.Element {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("/api/auth/login", loginInput);
+      const res = await axios.post("/auth/login", loginInput);
       setModalTitle("Success");
       setModalMessage(res.data.message);
       setLoginInput(initialLoginInput);
