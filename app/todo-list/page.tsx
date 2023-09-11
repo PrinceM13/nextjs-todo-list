@@ -8,6 +8,10 @@ import { Spinner } from "@/components";
 import { Button, Input } from "@/components/base";
 import { ITodoDocumentProps } from "@/interfaces/global";
 
+interface NameList {
+  _id: string;
+  displayName: string;
+}
 interface StatusQuery {
   completed: string;
   incomplete: string;
@@ -31,14 +35,20 @@ export default function TodoListPage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
 
   // * filter state
+  const [inputMemberFilter, setInputMemberFilter] = useState<string>("");
+  const [nameList, setNameList] = useState<NameList[]>([]);
+  // * selected member state
+  const [searchNames, setSearchNames] = useState<string[]>([]);
+  // * use for query
   const [statusFilter, setStatusFilter] = useState<"completed" | "incomplete" | "all">("all");
+  const [nameFilter, setNameFilter] = useState<string>("");
 
   // * fetch todo list
   useEffect(() => {
     setIsLoading(true);
     const fetchTodoList = async () => {
       try {
-        const res = await axios(`/todo/all?search=${""}&status=${statusQuery[statusFilter]}`);
+        const res = await axios(`/todo/all?name=${nameFilter}&status=${statusQuery[statusFilter]}`);
         setTodoList(res.data.data);
         setIsLoading(false);
       } catch (error) {
@@ -47,7 +57,55 @@ export default function TodoListPage(): JSX.Element {
     };
 
     fetchTodoList();
-  }, [statusFilter]);
+  }, [statusFilter, nameFilter]);
+
+  useEffect(() => {
+    const fetchNameList = async () => {
+      try {
+        const res = await axios(`/member/name-list?name=${inputMemberFilter}`);
+        setNameList(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const id = setTimeout(() => {
+      fetchNameList();
+    }, 300);
+
+    return () => clearTimeout(id);
+  }, [inputMemberFilter]);
+
+  // * add selected member
+  const onSelectMember = (name: string) => {
+    if (!searchNames.includes(name)) {
+      setSearchNames([...searchNames, name]);
+      setInputMemberFilter("");
+    }
+  };
+
+  // * delete selected member
+  const onDeleteMember = (name: string) => {
+    setSearchNames(searchNames.filter((searchName) => searchName !== name));
+  };
+
+  // * convert array of string to string with comma
+  const convertArrayToStringWithComma = (array: string[]): string => {
+    let result = "";
+    array?.forEach((item, idx) => {
+      if (idx === array.length - 1) {
+        result += item;
+      } else {
+        result += `${item},`;
+      }
+    });
+    return result;
+  };
+
+  const handleSearchClick = () => {
+    const name = convertArrayToStringWithComma(searchNames);
+    setNameFilter(name);
+  };
 
   return (
     <>
@@ -55,16 +113,74 @@ export default function TodoListPage(): JSX.Element {
         <header className="text-4xl text-center">Todo List</header>
 
         {/* filter by member */}
-        <section className="flex justify-center items-center gap-4">
-          <Input.TextWithLabel label="Member" labelWidth="4rem" />
-          <Button.Default>Search</Button.Default>
+        <section className="flex justify-center items-start gap-4">
+          <div>Member</div>
+          <div className="relative w-[250px]">
+            <Input.TextWithLabel
+              initialValue={inputMemberFilter}
+              onChange={(value) => setInputMemberFilter(value)}
+            />
+
+            {/* selected member */}
+            {searchNames.length > 0 && (
+              <div>
+                <div className="text-xs mt-2">filter with:</div>
+                <div className="flex flex-wrap gap-1 mt-1 rounded-xl p-2 border-2 border-neutral-300">
+                  {searchNames.map((name, idx) => (
+                    <div
+                      key={idx}
+                      className="flex justify-center items-center gap-2 w-fit px-2 py-1 cursor-default text-[0.5rem] bg-neutral-300 rounded-full shadow-md"
+                    >
+                      <div>{name}</div>
+                      <div
+                        className="font-bold text-red-600 cursor-pointer"
+                        onClick={() => onDeleteMember(name)}
+                      >
+                        x
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* name list */}
+            {nameList.length > 0 && (
+              <div className="absolute left-0 w-full mt-2">
+                {nameList?.map((name, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => onSelectMember(name.displayName)}
+                    className="w-full bg-white px-1.5 py-0.5 border-b-2 cursor-pointer hover:bg-neutral-200"
+                  >
+                    {name?.displayName}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <Button.Default className="text-xs py-1.5" onClick={handleSearchClick}>
+            Search
+          </Button.Default>
         </section>
 
         {/* filter by status */}
         <section className="flex justify-between shadow-xl">
-          <StatusButton status="all" onClick={() => setStatusFilter("all")} />
-          <StatusButton status="incomplete" onClick={() => setStatusFilter("incomplete")} />
-          <StatusButton status="completed" onClick={() => setStatusFilter("completed")} />
+          <StatusButton
+            status="all"
+            isSelect={statusFilter === "all"}
+            onClick={() => setStatusFilter("all")}
+          />
+          <StatusButton
+            status="incomplete"
+            isSelect={statusFilter === "incomplete"}
+            onClick={() => setStatusFilter("incomplete")}
+          />
+          <StatusButton
+            status="completed"
+            isSelect={statusFilter === "completed"}
+            onClick={() => setStatusFilter("completed")}
+          />
         </section>
 
         {/* todo list */}
@@ -122,14 +238,14 @@ interface StatusButtonProps {
 const statusButtonProps: StatusButtonProps = {
   all: {
     title: "All",
-    color: "text-gray-700",
-    backgroundColor: "bg-gray-200",
-    hoverColor: "hover:text-gray-800",
-    hoverBackgroundColor: "hover:bg-gray-300",
-    activeColor: "active:text-gray-900",
-    activeBackgroundColor: "active:bg-gray-400",
-    disabledColor: "text-gray-500",
-    disabledBackgroundColor: "bg-gray-200"
+    color: "text-neutral-700",
+    backgroundColor: "bg-neutral-200",
+    hoverColor: "hover:text-neutral-800",
+    hoverBackgroundColor: "hover:bg-neutral-300",
+    activeColor: "active:text-neutral-900",
+    activeBackgroundColor: "active:bg-neutral-400",
+    disabledColor: "text-neutral-500",
+    disabledBackgroundColor: "bg-neutral-200"
   },
   incomplete: {
     title: "Incomplete",
@@ -157,9 +273,11 @@ const statusButtonProps: StatusButtonProps = {
 
 function StatusButton({
   status,
+  isSelect = false,
   onClick
 }: {
   status: "all" | "incomplete" | "completed";
+  isSelect?: boolean;
   onClick: () => void;
 }): JSX.Element {
   const {
@@ -177,7 +295,17 @@ function StatusButton({
   const dynamicClassName: string = `${color} ${backgroundColor} ${hoverColor} ${hoverBackgroundColor} ${activeColor} ${activeBackgroundColor} ${disabledColor} ${disabledBackgroundColor}`;
 
   return (
-    <div onClick={onClick} className={`flex-1 text-center py-4 cursor-pointer ${dynamicClassName}`}>
+    <div
+      onClick={onClick}
+      style={{
+        borderBottom: isSelect
+          ? `2px solid ${
+              status === "all" ? "#262626" : status === "completed" ? "#166534" : "#991b1b"
+            }`
+          : ""
+      }}
+      className={`flex-1 text-center py-4 cursor-pointer ${dynamicClassName}`}
+    >
       {title}
     </div>
   );

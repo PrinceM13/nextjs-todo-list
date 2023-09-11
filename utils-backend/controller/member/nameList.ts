@@ -2,7 +2,7 @@ import { connection, model } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
 import type { IController } from "@/interfaces/backend";
-import type { ITodoDocumentProps } from "@/interfaces/global";
+import type { IUserDocumentProps } from "@/interfaces/global";
 
 export default async function showAllTodosWithFilters({
   modelName,
@@ -14,28 +14,24 @@ export default async function showAllTodosWithFilters({
   const name = url.searchParams.get("name");
   const names: string[] = name?.split(",") ?? [];
 
-  // * get status from query
-  const status = url.searchParams.get("status");
-
   // * create a pattern from searchs ex. (ck)|(ma)|(ss)
   const pattern = names.map((el) => `(${el})`).join("|");
   // * create a regex from pattern ex. /(ck)|(ma)|(ss)/i
   const regex = new RegExp(pattern, "i");
 
-  // * create a query for status and displayName
-  const statusQuery = { isCompleted: status === "true" ? true : false };
-  const displayNameQuery = { "member.displayName": { $regex: regex } };
-  // * join query with $and
-  const query = { $and: [displayNameQuery, status ? statusQuery : {}] };
+  // * create a query for displayName
+  const displayNameQuery = { displayName: { $regex: regex } };
 
   // * connect to mongodb
   await connection.mongodb();
 
-  let documents: ITodoDocumentProps[] = [];
-  if (!name && !status) {
-    documents = (await model.collection[modelName].find({})) as ITodoDocumentProps[];
-  } else {
-    documents = (await model.collection[modelName].find(query)) as ITodoDocumentProps[];
+  let documents: IUserDocumentProps[] = [];
+
+  // * if name is not empty, return all documents that match the regex
+  if (name) {
+    documents = (await model.collection[modelName]
+      .find(displayNameQuery)
+      .select("_id displayName")) as IUserDocumentProps[];
   }
 
   // * return all documents with status code 200
