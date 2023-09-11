@@ -5,10 +5,10 @@ export interface IUserDocumentProps {
   displayName?: string;
   session?: string;
   isActive?: boolean;
-  verificationToken?: string;
-  verificationTokenExpiresAt?: Date;
-  resetPasswordToken?: string;
-  resetPasswordTokenExpiresAt?: Date;
+  verificationToken?: string | null;
+  verificationTokenExpiresAt?: Date | null;
+  resetPasswordToken?: string | null;
+  resetPasswordTokenExpiresAt?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
