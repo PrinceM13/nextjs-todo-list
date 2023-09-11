@@ -8,10 +8,10 @@ const todoSchema = new Schema(
     member: [
       {
         user_id: { type: Types.ObjectId },
-        name: { type: String }
+        displayName: { type: String }
       }
     ],
-    status: { type: Boolean, default: false },
+    isCompleted: { type: Boolean, default: false },
     view: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true }
   },

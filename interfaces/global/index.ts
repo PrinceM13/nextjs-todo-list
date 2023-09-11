@@ -20,9 +20,9 @@ export interface ITodoDocumentProps {
   dueDate?: string;
   member?: {
     user_id?: string;
-    name?: string;
+    displayName?: string;
   }[];
-  status?: boolean;
+  isCompleted?: boolean;
   view?: number;
   isActive?: boolean;
   createdAt?: Date;

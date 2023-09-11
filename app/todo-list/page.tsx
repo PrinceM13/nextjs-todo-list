@@ -8,6 +8,18 @@ import { Spinner } from "@/components";
 import { Button, Input } from "@/components/base";
 import { ITodoDocumentProps } from "@/interfaces/global";
 
+interface StatusQuery {
+  completed: string;
+  incomplete: string;
+  all: string;
+}
+
+const statusQuery: StatusQuery = {
+  completed: "true",
+  incomplete: "false",
+  all: ""
+};
+
 export default function TodoListPage(): JSX.Element {
   // * router
   const router = useRouter();
@@ -18,11 +30,15 @@ export default function TodoListPage(): JSX.Element {
   // * loading state
   const [isLoading, setIsLoading] = useState(true);
 
+  // * filter state
+  const [statusFilter, setStatusFilter] = useState<"completed" | "incomplete" | "all">("all");
+
   // * fetch todo list
   useEffect(() => {
+    setIsLoading(true);
     const fetchTodoList = async () => {
       try {
-        const res = await axios("/todo/all");
+        const res = await axios(`/todo/all?search=${""}&status=${statusQuery[statusFilter]}`);
         setTodoList(res.data.data);
         setIsLoading(false);
       } catch (error) {
@@ -31,7 +47,7 @@ export default function TodoListPage(): JSX.Element {
     };
 
     fetchTodoList();
-  }, []);
+  }, [statusFilter]);
 
   return (
     <>
@@ -46,9 +62,9 @@ export default function TodoListPage(): JSX.Element {
 
         {/* filter by status */}
         <section className="flex justify-between shadow-xl">
-          <StatusButton status="all" />
-          <StatusButton status="incomplete" />
-          <StatusButton status="completed" />
+          <StatusButton status="all" onClick={() => setStatusFilter("all")} />
+          <StatusButton status="incomplete" onClick={() => setStatusFilter("incomplete")} />
+          <StatusButton status="completed" onClick={() => setStatusFilter("completed")} />
         </section>
 
         {/* todo list */}
@@ -60,12 +76,18 @@ export default function TodoListPage(): JSX.Element {
               className="flex flex-col justify-between gap-2 p-8 rounded-xl bg-yellow-200 hover:bg-yellow-300 shadow-xl cursor-pointer"
               onClick={() => router.push(`/todo-list/${todo._id}`)}
             >
-              <div className="flex-1 flex gap-2">
-                <input type="checkbox" />
-                <div>Status</div>
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className={`flex-1 flex gap-2 justify-center rounded-lg py-1 cursor-default ${
+                  todo.isCompleted ? "bg-green-300" : "bg-red-300"
+                }`}
+              >
+                <input type="checkbox" className="cursor-pointer" checked={todo.isCompleted} />
+                <div>{todo.isCompleted ? "completed" : "incomplete"}</div>
               </div>
               <div>{todo.topic}</div>
-              {todo && todo?.member?.map((member, idx) => <div key={idx}>{member.name}</div>)}
+              {todo &&
+                todo?.member?.map((member, idx) => <div key={idx}>{member.displayName}</div>)}
               <div>{todo.dueDate}</div>
             </div>
           ))}
@@ -133,7 +155,13 @@ const statusButtonProps: StatusButtonProps = {
   }
 };
 
-function StatusButton({ status }: { status: "all" | "incomplete" | "completed" }): JSX.Element {
+function StatusButton({
+  status,
+  onClick
+}: {
+  status: "all" | "incomplete" | "completed";
+  onClick: () => void;
+}): JSX.Element {
   const {
     title,
     color,
@@ -149,6 +177,8 @@ function StatusButton({ status }: { status: "all" | "incomplete" | "completed" }
   const dynamicClassName: string = `${color} ${backgroundColor} ${hoverColor} ${hoverBackgroundColor} ${activeColor} ${activeBackgroundColor} ${disabledColor} ${disabledBackgroundColor}`;
 
   return (
-    <div className={`flex-1 text-center py-4 cursor-pointer ${dynamicClassName}`}>{title}</div>
+    <div onClick={onClick} className={`flex-1 text-center py-4 cursor-pointer ${dynamicClassName}`}>
+      {title}
+    </div>
   );
 }
