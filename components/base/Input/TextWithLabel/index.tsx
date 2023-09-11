@@ -12,6 +12,8 @@ interface TextWithLabelProps {
   placeholder?: string;
   className?: string;
   style?: React.CSSProperties;
+  type?: string;
+  error?: string;
   onChange?: (value: string) => void;
 }
 
@@ -20,6 +22,8 @@ export default function TextWithLabel({
   labelWidth,
   initialValue,
   isRequired,
+  type = "text",
+  error = "",
   onChange
 }: TextWithLabelProps): JSX.Element {
   const [value, setValue] = useState(initialValue ?? "");
@@ -36,11 +40,13 @@ export default function TextWithLabel({
   return (
     <LabelFrame label={label ?? ""} labelWidth={labelWidth}>
       <input
+        type={type}
         className="w-[100%] px-2 rounded-lg outline outline-2 outline-blue-300"
         value={value}
         onChange={handleChange}
         required={isRequired}
       />
+      {error && <p className="text-red-600">{error}</p>}
     </LabelFrame>
   );
 }

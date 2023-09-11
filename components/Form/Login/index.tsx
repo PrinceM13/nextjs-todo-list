@@ -1,5 +1,3 @@
-"use client";
-
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -88,9 +86,9 @@ export default function LoginForm(): JSX.Element {
         <div
           className={`${
             modalTitle === "Error"
-              ? "text-red-500"
+              ? "text-red-600"
               : modalTitle === "Success"
-              ? "text-green-500"
+              ? "text-green-600"
               : ""
           }`}
         >
