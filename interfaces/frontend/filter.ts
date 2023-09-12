@@ -1,6 +1,6 @@
 export type TStatusFilter = "all" | "incomplete" | "completed";
 
-export interface INameList {
-  _id: string;
-  displayName: string;
+export interface IMember {
+  user_id?: string;
+  displayName?: string;
 }

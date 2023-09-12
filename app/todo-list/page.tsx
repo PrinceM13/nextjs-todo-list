@@ -33,7 +33,9 @@ export default function TodoListPage(): JSX.Element {
   const [statusFilter, setStatusFilter] = useState<IFilter.TStatusFilter>("all");
   // * use for member search
   const [inputSearch, setInputSearch] = useState<string>("");
-  const { nameQuery, onInputSearchChange, InputMemberSearch } = useMemberSearch();
+  const { nameQuery, onInputSearchChange, InputMemberSearch } = useMemberSearch({
+    initialMembers: []
+  });
   const handleInputSearchChange = (value: string) => {
     setInputSearch(value);
     onInputSearchChange(value);

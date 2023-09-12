@@ -22,6 +22,7 @@ export default function TextWithLabel({
   labelWidth,
   initialValue,
   isRequired,
+  placeholder,
   type = "text",
   error = "",
   onChange
@@ -43,6 +44,7 @@ export default function TextWithLabel({
         type={type}
         className="w-[100%] px-2 py-1 rounded-lg outline outline-2 outline-blue-300"
         value={value}
+        placeholder={placeholder ?? ""}
         onChange={handleChange}
         required={isRequired}
       />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { axios } from "@/utils-frontend";
-import { useModal } from "@/hook";
+import { useMemberSearch, useModal } from "@/hook";
 import { Button, Input } from "@/components/base";
 
 import type { ITodoDocumentUpdateProps } from "@/interfaces/global";
@@ -26,6 +26,18 @@ export default function TodoItemForm({
 
   // * update todo item state
   const [updateItem, setUpdateItem] = useState<ITodoDocumentUpdateProps>({});
+
+  // * use for member search
+  const [inputSearch, setInputSearch] = useState<string>("");
+  const { onInputSearchChange, InputMemberSearch } = useMemberSearch({
+    initialMembers: todoItem?.member ?? []
+  });
+  const handleInputSearchChange = (value: string) => {
+    setInputSearch(value);
+    onInputSearchChange(value);
+  };
+
+  // TODO: update member to database
 
   // * handle update todo item
   const handleUpdateTodoItem = async () => {
@@ -115,11 +127,28 @@ export default function TodoItemForm({
             initialValue={String(todoItem?.dueDate).split("T")[0]}
             onChange={(value) => handleTodoItemChange("dueDate", value)}
           />
+
           <Input.TextWithLabel
             label="Member"
             initialValue={todoItem?.member ? todoItem?.member[0]?.displayName : ""}
             onChange={(value) => handleTodoItemChange("member", value)}
           />
+          {/* search part */}
+          <div className="flex gap-4">
+            <div className="flex-shrink-0 w-24">Member</div>
+            <div className="relative w-[350px]">
+              <Input.TextWithLabel
+                initialValue={inputSearch}
+                placeholder="type to search member"
+                onChange={(value) => handleInputSearchChange(value)}
+              />
+              <InputMemberSearch
+                title="selected member"
+                initialSelectedMember={todoItem?.member}
+                onClearInput={() => setInputSearch("")}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex self-center gap-4 w-[100%]">

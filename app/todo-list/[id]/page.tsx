@@ -15,7 +15,7 @@ export default function TodoItemPage(): JSX.Element {
   const id: string | string[] = params.id;
 
   // * use modal hook
-  const { openModal, closeModal, CustomModal } = useModal();
+  const { openModal, CustomModal } = useModal();
 
   // * todo detail state
   const [todoItem, setTodoItem] = useState<ITodoDocumentUpdateProps>();
