@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { axios } from "@/utils-frontend";
-import { useMemberSearch, useModal } from "@/hook";
+import { useMemberSearch, useModal } from "@/hooks";
 import { Button, Input } from "@/components/base";
 
 import type { ITodoDocumentUpdateProps } from "@/interfaces/global";

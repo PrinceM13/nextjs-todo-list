@@ -1,4 +1,5 @@
 import config from "./config";
+import authenticate from "./authenticate";
 
 import * as model from "./model";
 import * as connection from "./connection";
@@ -7,4 +8,4 @@ import * as errorResponse from "./errorResponse";
 
 import * as nodemailer from "./nodemailer";
 
-export { model, config, connection, controller, errorResponse, nodemailer };
+export { config, authenticate, model, connection, controller, errorResponse, nodemailer };

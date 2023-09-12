@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import { axios } from "@/utils-frontend";
-import { useModal } from "@/hook";
+import { useModal } from "@/hooks";
 import { Form, Spinner } from "@/components";
 
 import type { ITodoDocumentUpdateProps } from "@/interfaces/global";

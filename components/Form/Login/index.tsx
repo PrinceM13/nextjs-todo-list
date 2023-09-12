@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import FormFrame from "../FormFrame";
-import { axios } from "@/utils-frontend";
-import { useModal } from "@/hook";
+import { axios, localStorage } from "@/utils-frontend";
+import { useModal } from "@/hooks";
 import { Button, Input } from "@/components/base";
 import { Layout, Spinner } from "@/components";
 
@@ -48,6 +48,9 @@ export default function LoginForm(): JSX.Element {
         type: "success"
       });
       setLoginInput(initialLoginInput);
+
+      // * set token to local storage
+      localStorage.setAccessToken(res.data.accessToken);
 
       // * redirect to todo list page
       setTimeout(() => {

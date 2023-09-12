@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Svgs } from "@/assets";
-import { useModal } from "@/hook";
+import { useModal } from "@/hooks";
 import { Spinner } from "@/components";
 import { Button } from "@/components/base";
 
