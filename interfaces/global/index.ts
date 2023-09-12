@@ -19,7 +19,7 @@ export interface ITodoDocumentProps {
   detail?: string;
   dueDate?: string;
   member?: {
-    user_id?: string;
+    _id?: string;
     displayName?: string;
   }[];
   isCompleted?: boolean;
@@ -35,7 +35,7 @@ export interface ITodoDocumentUpdateProps {
   detail?: string;
   dueDate?: string;
   member?: {
-    user_id?: string;
+    _id?: string;
     displayName?: string;
   }[];
   isCompleted?: boolean;

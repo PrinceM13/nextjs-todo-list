@@ -1,6 +1,6 @@
 export type TStatusFilter = "all" | "incomplete" | "completed";
 
 export interface IMember {
-  user_id?: string;
+  _id?: string;
   displayName?: string;
 }

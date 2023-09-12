@@ -30,14 +30,15 @@ export default function TodoItemForm({
   // * use for member search
   const [inputSearch, setInputSearch] = useState<string>("");
   const { onInputSearchChange, InputMemberSearch } = useMemberSearch({
-    initialMembers: todoItem?.member ?? []
+    initialMembers: todoItem?.member ?? [],
+    onUpdateMember: (members) => {
+      setUpdateItem({ ...updateItem, member: members });
+    }
   });
   const handleInputSearchChange = (value: string) => {
     setInputSearch(value);
     onInputSearchChange(value);
   };
-
-  // TODO: update member to database
 
   // * handle update todo item
   const handleUpdateTodoItem = async () => {
@@ -128,11 +129,6 @@ export default function TodoItemForm({
             onChange={(value) => handleTodoItemChange("dueDate", value)}
           />
 
-          <Input.TextWithLabel
-            label="Member"
-            initialValue={todoItem?.member ? todoItem?.member[0]?.displayName : ""}
-            onChange={(value) => handleTodoItemChange("member", value)}
-          />
           {/* search part */}
           <div className="flex gap-4">
             <div className="flex-shrink-0 w-24">Member</div>

@@ -7,9 +7,11 @@ import { Filter } from "@/components";
 import type { IFilter } from "@/interfaces/frontend";
 
 export default function useMemberSearch({
-  initialMembers = []
+  initialMembers = [],
+  onUpdateMember
 }: {
   initialMembers?: IFilter.IMember[];
+  onUpdateMember?: (members: IFilter.IMember[]) => void;
 }) {
   // * input search state
   const [inputSearch, setInputSearch] = useState<string>("");
@@ -60,13 +62,15 @@ export default function useMemberSearch({
     // * auto search after delete member
     const newName = converter.convertArrayToStringWithComma(memberNames);
     setNameQuery(newName);
+
+    // * update member to parent component
+    onUpdateMember &&
+      onUpdateMember(members.filter((member) => member.displayName !== deleteMember.displayName));
   };
 
   // * select member from name list
   const onSelectMember = (newMember: IFilter.IMember) => {
-    // TODO: use user_id instead of displayName
-    if (!members.some((member) => member.displayName === newMember.displayName)) {
-      // if (!members.some((member) => member.user_id === newMember.user_id)) {
+    if (!members.some((member) => member._id === newMember._id)) {
       setMembers([...members, newMember]);
       setInputSearch("");
 
@@ -78,6 +82,9 @@ export default function useMemberSearch({
         newMember.displayName ?? ""
       ]);
       setNameQuery(newName);
+
+      // * update member to parent component
+      onUpdateMember && onUpdateMember([...members, newMember]);
     } else {
       setInputSearch("");
       setNameList([]);
@@ -98,10 +105,7 @@ export default function useMemberSearch({
     onClearInput
   }: {
     title?: string;
-    initialSelectedMember?: {
-      user_id?: string;
-      displayName?: string;
-    }[];
+    initialSelectedMember?: IFilter.IMember[];
     onClearInput: () => void;
   }): JSX.Element => {
     return (

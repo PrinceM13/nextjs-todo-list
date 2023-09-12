@@ -7,7 +7,7 @@ const todoSchema = new Schema(
     dueDate: String,
     member: [
       {
-        user_id: { type: Types.ObjectId },
+        _id: { type: Types.ObjectId },
         displayName: { type: String }
       }
     ],
