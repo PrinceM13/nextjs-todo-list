@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-import FormFrame from "../FormFrame";
 import { axios } from "@/utils-frontend";
 import { useModal } from "@/hooks";
 import { Layout, Spinner } from "@/components";
 import { Button, Input } from "@/components/base";
+
+import FormFrame from "../FormFrame";
 
 interface RegisterInput {
   email: string;
@@ -20,10 +22,12 @@ const initialRegisterInput: RegisterInput = {
   displayName: ""
 };
 
+const url: string = process.env.NEXT_PUBLIC_WEB_URL ?? "";
+
 export default function SignUpForm(): JSX.Element {
   // * input state
   const [registerInput, setRegisterInput] = useState<RegisterInput>(initialRegisterInput);
-  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
 
   // * use modal hook
   const { openModal, CustomModal } = useModal();
@@ -117,6 +121,12 @@ export default function SignUpForm(): JSX.Element {
           />
         </Layout.FormInput>
         <Button.Default type="submit">Sign Up</Button.Default>
+        <p>
+          Already have an account?{" "}
+          <Link href={url + "/login"} className="text-blue-600 underline cursor-pointer">
+            Sign In
+          </Link>
+        </p>
       </FormFrame>
 
       {/* modal */}

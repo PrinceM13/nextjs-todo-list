@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import FormFrame from "../FormFrame";
 import { axios, localStorage } from "@/utils-frontend";
@@ -16,6 +17,8 @@ const initialLoginInput: LoginInput = {
   email: "",
   password: ""
 };
+
+const url: string = process.env.NEXT_PUBLIC_WEB_URL ?? "";
 
 export default function LoginForm(): JSX.Element {
   // * router
@@ -84,8 +87,20 @@ export default function LoginForm(): JSX.Element {
             isRequired={true}
             onChange={(value) => onInputChange("password", value)}
           />
+          <Link
+            href={url + "/forgot-password"}
+            className="text-blue-600 underline cursor-pointer self-end"
+          >
+            Forgot Password
+          </Link>
         </Layout.FormInput>
         <Button.Default type="submit">Sign In</Button.Default>
+        <p>
+          Don't have an account?{" "}
+          <Link href={url + "/sign-up"} className="text-blue-600 underline cursor-pointer">
+            Sign Up
+          </Link>
+        </p>
       </FormFrame>
 
       {/* modal */}
