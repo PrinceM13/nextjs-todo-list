@@ -76,7 +76,7 @@ export default function TodoItemForm({
 
   return (
     <>
-      <section className="flex flex-col gap-8 w-[500px] self-center px-16 py-12 rounded-xl shadow-xl bg-yellow-200">
+      <section className="flex flex-col gap-8 max-w-[500px] w-[95%] lg:w-[60%] self-center px-6 py-4 md:px-12 md:py-8 lg:px-16 lg:py-12 rounded-xl shadow-xl bg-yellow-200">
         <div className="flex justify-between">
           <div className="flex gap-2 items-center">
             {/* isCompleted */}
@@ -136,9 +136,9 @@ export default function TodoItemForm({
           />
 
           {/* search part */}
-          <div className="flex gap-4">
-            <div className="flex-shrink-0 w-24">Member</div>
-            <div className="relative w-[350px]">
+          <div className="flex gap-4 text-xs md:text-sm lg:text-base">
+            <div className="flex-shrink-0 w-16 lg:w-24">Member</div>
+            <div className="relative w-full">
               <Input.TextWithLabel
                 initialValue={inputSearch}
                 placeholder="type to search member"

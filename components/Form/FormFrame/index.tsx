@@ -7,7 +7,7 @@ interface FormFrameProps {
 
 export default function FormFrame({ children, onSubmit }: FormFrameProps): JSX.Element {
   return (
-    <form className="flex flex-col gap-8 w-[400px] items-center" onSubmit={onSubmit}>
+    <form className="flex flex-col gap-8 max-w-[400px] items-center" onSubmit={onSubmit}>
       {children}
     </form>
   );
