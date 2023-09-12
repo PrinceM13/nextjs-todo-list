@@ -13,9 +13,11 @@ export default function LabelFrame({
 }: LabelFrameProps): JSX.Element {
   return (
     <div className="flex justify-between gap-4">
-      <label className="flex-shrink-0 w-24" style={{ width: labelWidth }}>
-        {label}
-      </label>
+      {label && (
+        <label className="flex-shrink-0 w-24" style={{ width: labelWidth }}>
+          {label}
+        </label>
+      )}
       <div className="flex-grow">{children}</div>
     </div>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { Form, Layout } from "@/components";
 
 export default function SignUpPage(): JSX.Element {
