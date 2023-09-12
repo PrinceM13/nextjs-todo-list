@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 
 import { localStorage } from "@/utils-frontend";
 
+const url: string = process.env.NEXT_PUBLIC_WEB_URL ?? "";
+
 export default function RedirectIfAuthenticated({
   children
 }: {
@@ -20,12 +22,10 @@ export default function RedirectIfAuthenticated({
 
     // * if the access token is present, redirect to the todo list page
     if (accessToken) {
-      router.push("/todo-list");
+      router.push(url + "/todo-list");
     }
 
-    setTimeout(() => {
-      setIsLoaded(true);
-    }, 500);
+    setIsLoaded(true);
   }, []);
 
   return <>{isLoaded && children}</>;

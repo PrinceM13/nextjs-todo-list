@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 
 import { config } from "@/utils-backend";
 import { verificationEmailTemplate } from "./emailTemplate";
+import { resetPasswordEmailTemplate } from "./emailTemplate/resetPassword";
 
 export const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -29,11 +30,9 @@ export const sendVerificationEmail = async (to: string, name: string, token: str
   await sendEmail(to, subject, html);
 };
 
-export const sendResetPasswordEmail = async (to: string, token: string) => {
+export const sendResetPasswordEmail = async (to: string, name: string, token: string) => {
   const subject = "Reset Your Todo List Password";
-  const html = `
-        <p>Click <a href="${config.url.webUrl}/reset-password?token=${token}">here</a> to reset your password.</p>
-    `;
+  const html = resetPasswordEmailTemplate(name, token);
 
   await sendEmail(to, subject, html);
 };

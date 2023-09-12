@@ -34,7 +34,7 @@ export default function VerifyPage(): JSX.Element {
 
       try {
         const res = await axios.patch(`/auth/${token}/verify-email`);
-        console.log(res);
+
         if (res.status === 200) {
           setIsSuccess(true);
         } else {

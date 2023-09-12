@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 
 import { localStorage } from "@/utils-frontend";
 
+const url: string = process.env.NEXT_PUBLIC_WEB_URL ?? "";
+
 export default function PrivateRoute({ children }: { children: React.ReactNode }): JSX.Element {
   // * router
   const router = useRouter();
@@ -16,12 +18,10 @@ export default function PrivateRoute({ children }: { children: React.ReactNode }
 
     // * if the access token is not present, redirect to the login page
     if (!accessToken) {
-      router.push("/login");
+      router.push(url + "/login");
     }
 
-    setTimeout(() => {
-      setIsLoaded(true);
-    }, 500);
+    setIsLoaded(true);
   }, []);
 
   return <>{isLoaded && children}</>;
