@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 
 import { axios } from "@/utils-frontend";
+import { Input } from "@/components/base";
 
 import type { ITodoDocumentProps } from "@/interfaces/global";
 
@@ -59,11 +60,9 @@ export default function TodoListStickyNote({
               todo.isCompleted ? "bg-green-300" : "bg-red-300"
             }`}
           >
-            <input
-              type="checkbox"
-              className="cursor-pointer"
-              checked={todo.isCompleted}
-              onChange={() => updateIsCompleted(todo._id ?? "", !todo.isCompleted)}
+            <Input.CheckBox
+              initialValue={todo.isCompleted}
+              onChange={(value) => updateIsCompleted(todo._id ?? "", value)}
             />
             <div>{todo.isCompleted ? "completed" : "incomplete"}</div>
           </div>

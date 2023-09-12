@@ -22,7 +22,7 @@ export default function VerifyPage(): JSX.Element {
   const { openModal, CustomModal } = useModal();
 
   // * spinner state
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // * success state
   const [isSuccess, setIsSuccess] = useState(false);

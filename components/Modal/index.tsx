@@ -17,7 +17,7 @@ export default function Modal({ children, title, isOpen, onClose }: ModalProps):
           <div className="fixed inset-0 flex items-center justify-center" onMouseDown={onClose}>
             {/* modal content */}
             <div
-              className="bg-white rounded-lg p-6 min-w-[300px]"
+              className="bg-white rounded-lg p-6 min-w-[300px] max-w-[60%]"
               onMouseDown={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-3">

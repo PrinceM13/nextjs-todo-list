@@ -10,3 +10,11 @@ export const convertArrayToStringWithComma = (array: string[]): string => {
   });
   return result;
 };
+
+// convert date to locale string
+export const dateToString = (date: Date | null) =>
+  new Date(date ?? "").toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });

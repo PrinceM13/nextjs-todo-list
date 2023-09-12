@@ -1,14 +1,9 @@
-import { Modal } from "@/components";
 import { useState } from "react";
+import ResponseModal from "./ResponseModal";
 
-interface ModalDetailProps {
-  title?: string;
-  message?: string;
-  jsx?: JSX.Element;
-  type?: "info" | "danger" | "success";
-}
+import type { IModal } from "@/interfaces/frontend";
 
-const initialModalDetail: ModalDetailProps = {
+const initialModalDetail: IModal.ModalDetailProps = {
   title: "Modal Title",
   message: "Modal Message",
   jsx: <p>Modal JSX</p>,
@@ -17,9 +12,9 @@ const initialModalDetail: ModalDetailProps = {
 
 export default function useModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalDetail, setModalDetail] = useState<ModalDetailProps>(initialModalDetail);
+  const [modalDetail, setModalDetail] = useState<IModal.ModalDetailProps>(initialModalDetail);
 
-  const openModal = ({ title, message, jsx, type }: ModalDetailProps) => {
+  const openModal = ({ title, message, jsx, type }: IModal.ModalDetailProps) => {
     setIsModalOpen(true);
     setModalDetail({ title, message, jsx, type });
   };
@@ -31,31 +26,11 @@ export default function useModal() {
 
   const CustomModal = (): JSX.Element => {
     return (
-      <Modal
-        title={modalDetail.title ?? ""}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      >
-        <div className="flex flex-col gap-8">
-          {/* plain text content */}
-          {modalDetail.message && (
-            <p
-              className={`${
-                modalDetail.type === "success"
-                  ? "text-green-600"
-                  : modalDetail.type === "danger"
-                  ? "text-red-600"
-                  : ""
-              }`}
-            >
-              {modalDetail.message}
-            </p>
-          )}
-
-          {/* jsx content */}
-          {modalDetail.jsx}
-        </div>
-      </Modal>
+      <ResponseModal
+        modalDetail={modalDetail}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     );
   };
 

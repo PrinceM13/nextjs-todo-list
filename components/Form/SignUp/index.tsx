@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import FormFrame from "../FormFrame";
 import { axios } from "@/utils-frontend";
@@ -22,9 +21,6 @@ const initialRegisterInput: RegisterInput = {
 };
 
 export default function SignUpForm(): JSX.Element {
-  // * router
-  const router = useRouter();
-
   // * input state
   const [registerInput, setRegisterInput] = useState<RegisterInput>(initialRegisterInput);
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);

@@ -28,3 +28,19 @@ export interface ITodoDocumentProps {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface ITodoDocumentUpdateProps {
+  _id?: string;
+  topic?: string;
+  detail?: string;
+  dueDate?: string;
+  member?: {
+    user_id?: string;
+    displayName?: string;
+  }[];
+  isCompleted?: boolean;
+  view?: number;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

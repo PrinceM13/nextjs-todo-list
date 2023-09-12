@@ -1,3 +1,4 @@
+import CheckBox from "./CheckBox";
 import TextWithLabel from "./TextWithLabel";
 
-export { TextWithLabel };
+export { CheckBox, TextWithLabel };
