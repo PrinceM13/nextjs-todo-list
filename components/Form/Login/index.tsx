@@ -96,7 +96,7 @@ export default function LoginForm(): JSX.Element {
         </Layout.FormInput>
         <Button.Default type="submit">Sign In</Button.Default>
         <p>
-          Don't have an account?{" "}
+          {`Don't have an account? `}
           <Link href={url + "/sign-up"} className="text-blue-600 underline cursor-pointer">
             Sign Up
           </Link>
