@@ -11,12 +11,16 @@ export default function TodoItemForm({
   id,
   todoItem,
   updateTodoItem,
-  setIsLoading
+  setIsLoading,
+  onCancel,
+  isCreate = false
 }: {
   id?: string | string[];
   todoItem?: ITodoDocumentUpdateProps;
   setIsLoading: (value: boolean) => void;
   updateTodoItem: (updateItem: ITodoDocumentUpdateProps) => Promise<void>;
+  onCancel?: () => void;
+  isCreate?: boolean;
 }): JSX.Element {
   // * router
   const router = useRouter();
@@ -82,34 +86,36 @@ export default function TodoItemForm({
             />
             <div>Status</div>
           </div>
-          <Button.Default
-            className="bg-red-400 hover:bg-red-500 active:bg-red-600"
-            onClick={() =>
-              openModal({
-                title: "Delete Todo Item",
-                type: "danger",
-                message: "Are you sure you want to delete this todo item?",
-                jsx: (
-                  <div className="flex justify-center gap-4">
-                    <Button.Default
-                      className="bg-red-400 hover:bg-red-500 active:bg-red-600"
-                      onClick={() => closeModal()}
-                    >
-                      Cancel
-                    </Button.Default>
-                    <Button.Default
-                      className="bg-neutral-400 hover:bg-neutral-500 active:bg-neutral-600"
-                      onClick={() => handleDeleteTodoItem()}
-                    >
-                      Delete
-                    </Button.Default>
-                  </div>
-                )
-              })
-            }
-          >
-            Delete
-          </Button.Default>
+          {!isCreate && (
+            <Button.Default
+              className="bg-red-400 hover:bg-red-500 active:bg-red-600"
+              onClick={() =>
+                openModal({
+                  title: "Delete Todo Item",
+                  type: "danger",
+                  message: "Are you sure you want to delete this todo item?",
+                  jsx: (
+                    <div className="flex justify-center gap-4">
+                      <Button.Default
+                        className="bg-red-400 hover:bg-red-500 active:bg-red-600"
+                        onClick={() => closeModal()}
+                      >
+                        Cancel
+                      </Button.Default>
+                      <Button.Default
+                        className="bg-neutral-400 hover:bg-neutral-500 active:bg-neutral-600"
+                        onClick={() => handleDeleteTodoItem()}
+                      >
+                        Delete
+                      </Button.Default>
+                    </div>
+                  )
+                })
+              }
+            >
+              Delete
+            </Button.Default>
+          )}
         </div>
         <div className="flex flex-col gap-4">
           <Input.TextWithLabel
@@ -150,15 +156,15 @@ export default function TodoItemForm({
         <div className="flex self-center gap-4 w-[100%]">
           <Button.Default
             className="flex-1 bg-neutral-400 hover:bg-neutral-500 active:bg-neutral-600"
-            onClick={() => router.push("/todo-list")}
+            onClick={() => (isCreate ? onCancel && onCancel() : router.push("/todo-list"))}
           >
-            Back
+            {onCancel ? "Cancel" : "Back"}
           </Button.Default>
           <Button.Default
             className="flex-1 bg-green-400 hover:bg-green-500 active:bg-green-600"
             onClick={handleUpdateTodoItem}
           >
-            Save
+            {isCreate ? "Create" : "Save"}
           </Button.Default>
         </div>
       </section>

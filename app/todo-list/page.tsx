@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 import { axios } from "@/utils-frontend";
-import { useMemberSearch } from "@/hook";
-import { Filter, Spinner, StickyNote } from "@/components";
+import { useMemberSearch, useModal } from "@/hook";
+import { Filter, Form, Spinner, StickyNote } from "@/components";
 import { Button, Input } from "@/components/base";
 
-import type { ITodoDocumentProps } from "@/interfaces/global";
+import type { ITodoDocumentProps, ITodoDocumentUpdateProps } from "@/interfaces/global";
 import type { IFilter } from "@/interfaces/frontend";
 
 interface StatusQuery {
@@ -36,6 +36,10 @@ export default function TodoListPage(): JSX.Element {
   const { nameQuery, onInputSearchChange, InputMemberSearch } = useMemberSearch({
     initialMembers: []
   });
+
+  // * use modal hook
+  const { openModal, closeModal, CustomModal } = useModal();
+
   const handleInputSearchChange = (value: string) => {
     setInputSearch(value);
     onInputSearchChange(value);
@@ -63,6 +67,37 @@ export default function TodoListPage(): JSX.Element {
   //   const name = converter.convertArrayToStringWithComma(searchNames);
   //   setNameFilter(name);
   // };
+
+  // * create todo item
+  const createTodoItem = async (createItem: ITodoDocumentUpdateProps) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`/todo/create`, createItem);
+      if (res.status === 201) {
+        // * update todo item to todo list state
+        setTodoList([...todoList, res.data.data]);
+        closeModal();
+
+        setTimeout(() => {
+          openModal({
+            title: "Todo Item",
+            message: "create todo item success",
+            type: "success"
+          });
+        }, 500);
+      }
+    } catch (error: any) {
+      console.log(error);
+
+      openModal({
+        title: "Todo Item",
+        message: error.response?.data?.message ?? "something went wrong",
+        type: "danger"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -103,9 +138,28 @@ export default function TodoListPage(): JSX.Element {
 
         {/* add todo */}
         <div className="w-20 h-20 rounded-full fixed right-12 bottom-12 cursor-pointer shadow-xl bg-blue-200 hover:bg-blue-300 active:bg-blue-400 text-blue-700 flex justify-center items-center">
-          <div>Add</div>
+          <div
+            onClick={() =>
+              openModal({
+                title: "Add Todo Item",
+                jsx: (
+                  <Form.TodoItem
+                    updateTodoItem={createTodoItem}
+                    setIsLoading={setIsLoading}
+                    onCancel={closeModal}
+                    isCreate={true}
+                  />
+                )
+              })
+            }
+          >
+            Add
+          </div>
         </div>
       </main>
+
+      {/* modal */}
+      <CustomModal />
 
       {/* spinner */}
       {isLoading && <Spinner.HourGlass />}
