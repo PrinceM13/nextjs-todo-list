@@ -19,6 +19,6 @@ export async function POST(request: NextRequest) {
 
     // * check if error is from mongodb and return error response with proper status code
     const { message, status } = errorResponse.mongodb(error);
-    return NextResponse.json(message, { status });
+    return NextResponse.json({ message }, { status });
   }
 }

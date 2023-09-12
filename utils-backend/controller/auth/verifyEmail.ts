@@ -14,7 +14,7 @@ export default async function verifyEmail({
 
   // * check if token is null and return error response with status code 400
   if (!token) {
-    return NextResponse.json("Token not found", { status: 400 });
+    return NextResponse.json({ message: "Token not found" }, { status: 400 });
   }
 
   // * connect to mongodb
@@ -25,18 +25,18 @@ export default async function verifyEmail({
     verificationToken: token
   });
   if (!user) {
-    return NextResponse.json("Invalid token", { status: 400 });
+    return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }
 
   // TODO: how to handle when token is expired
   // * check if token is expired and return error response with status code 400
   if (user.verificationTokenExpiresAt && user.verificationTokenExpiresAt < new Date()) {
-    return NextResponse.json("Token expired", { status: 400 });
+    return NextResponse.json({ message: "Token expired" }, { status: 400 });
   }
 
   // * check if user is active and return error response with status code 422
   if (user.isActive) {
-    return NextResponse.json("User is already active", { status: 422 });
+    return NextResponse.json({ message: "User is already active" }, { status: 422 });
   }
 
   // * set update content
@@ -57,7 +57,7 @@ export default async function verifyEmail({
 
   // * check if document is null and return error response with status code 404
   if (!currentDocument) {
-    return NextResponse.json("Document not found", { status: 404 });
+    return NextResponse.json({ message: "Document not found" }, { status: 404 });
   }
 
   // * find document by id and return it

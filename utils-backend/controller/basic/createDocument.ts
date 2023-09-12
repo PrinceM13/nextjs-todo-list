@@ -20,5 +20,5 @@ export default async function createRecord({
     | ITodoDocumentProps;
 
   // * return created document with status code 201
-  return NextResponse.json(createdDocument, { status: 201 });
+  return NextResponse.json({ data: createdDocument }, { status: 201 });
 }

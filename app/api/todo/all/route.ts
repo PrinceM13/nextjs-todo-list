@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     // * get all todos from mongodb
-    const response: NextResponse = await controller.basic.getAllDocuments({
+    const response: NextResponse = await controller.todo.showAllTodosWithFilters({
       modelName: "TodoModel",
       request
     });
@@ -18,6 +18,6 @@ export async function GET(request: NextRequest) {
     console.log(error);
 
     // * return error response with proper status code
-    return NextResponse.json(error.message, { status: error.status ?? 400 });
+    return NextResponse.json({ message: error.message }, { status: error.status ?? 400 });
   }
 }

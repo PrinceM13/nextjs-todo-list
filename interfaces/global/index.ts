@@ -19,10 +19,26 @@ export interface ITodoDocumentProps {
   detail?: string;
   dueDate?: string;
   member?: {
-    user_id?: string;
-    name?: string;
-  };
-  status?: boolean;
+    _id?: string;
+    displayName?: string;
+  }[];
+  isCompleted?: boolean;
+  view?: number;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ITodoDocumentUpdateProps {
+  _id?: string;
+  topic?: string;
+  detail?: string;
+  dueDate?: string;
+  member?: {
+    _id?: string;
+    displayName?: string;
+  }[];
+  isCompleted?: boolean;
   view?: number;
   isActive?: boolean;
   createdAt?: Date;

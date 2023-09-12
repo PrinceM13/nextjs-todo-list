@@ -15,7 +15,7 @@ export default async function register({
 
   // check if document is null and return error response with status code 400
   if (!document) {
-    return NextResponse.json("Document not found", { status: 400 });
+    return NextResponse.json({ message: "Document not found" }, { status: 400 });
   }
 
   // * connect to mongodb
@@ -25,8 +25,9 @@ export default async function register({
   const user: IUserDocumentProps | null = await model.collection[modelName].findOne({
     email: document.email
   });
+
   if (user) {
-    return NextResponse.json("Email already in use", { status: 400 });
+    return NextResponse.json({ message: "Email already in use" }, { status: 400 });
   }
 
   // * hash password with bcrypt
@@ -41,16 +42,27 @@ export default async function register({
   const createdDocument: IUserDocumentProps = await model.collection[modelName].create(document);
 
   // * send verification email
-  await nodemailer.sendVerificationEmail(
-    createdDocument.email,
-    createdDocument.displayName ?? "",
-    createdDocument.verificationToken ?? ""
-  );
+  try {
+    // * don't need to await for sending email, if wrong email is provided, user should figure it out by themselves
+    // await nodemailer.sendVerificationEmail(
+    nodemailer.sendVerificationEmail(
+      createdDocument.email,
+      createdDocument.displayName ?? "",
+      createdDocument.verificationToken ?? ""
+    );
+  } catch (error) {
+    console.error(error);
+    // * user should figure it out by themselves, so don't need to return error response with status code 400
+    // return NextResponse.json({ message: "Error sending verification email" }, { status: 400 });
+  }
 
   // * return response with status code 201
-  return NextResponse.json("User created successfully, waiting for verification", {
-    status: 201
-  });
+  return NextResponse.json(
+    { message: "Thank you for signing up, please check your email to verify your account" },
+    {
+      status: 201
+    }
+  );
   // * for debugging purposes
   // return NextResponse.json(createdDocument, { status: 201 });
 }

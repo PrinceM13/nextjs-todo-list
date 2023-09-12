@@ -17,5 +17,5 @@ export default async function getAllDocuments({
   )[];
 
   // * return all documents with status code 200
-  return NextResponse.json(documents, { status: 200 });
+  return NextResponse.json({ data: documents }, { status: 200 });
 }

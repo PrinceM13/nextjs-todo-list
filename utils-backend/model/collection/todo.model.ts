@@ -5,11 +5,13 @@ const todoSchema = new Schema(
     topic: { type: String, required: true },
     detail: String,
     dueDate: String,
-    member: {
-      user_id: { type: Types.ObjectId },
-      name: { type: String }
-    },
-    status: { type: Boolean, default: false },
+    member: [
+      {
+        _id: { type: Types.ObjectId },
+        displayName: { type: String }
+      }
+    ],
+    isCompleted: { type: Boolean, default: false },
     view: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true }
   },

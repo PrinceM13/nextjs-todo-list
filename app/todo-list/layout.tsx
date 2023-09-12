@@ -1,3 +1,5 @@
+"use client";
+
 import { Layout } from "@/components";
 
 export default function TodoListLayout({ children }: { children: React.ReactNode }): JSX.Element {
