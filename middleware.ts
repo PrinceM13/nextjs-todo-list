@@ -7,9 +7,15 @@ export const config = {
   matcher: "/api/:function*"
 };
 
-export async function middleware(req: NextRequest) {
+export async function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+
+  if (request.nextUrl.pathname.startsWith("/api")) {
+    response.headers.append("Access-Control-Allow-Origin", "*");
+  }
+
   // * if request url starts with /api/auth, will not run the middleware
-  if (req.nextUrl.pathname.startsWith("/api/auth")) return NextResponse.next();
+  if (request.nextUrl.pathname.startsWith("/api/auth")) return NextResponse.next();
 
   // * authenticate
   const res = authenticate();
