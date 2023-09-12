@@ -41,7 +41,7 @@ export default function TextWithLabel({
     <LabelFrame label={label ?? ""} labelWidth={labelWidth}>
       <input
         type={type}
-        className="w-[100%] px-2 rounded-lg outline outline-2 outline-blue-300"
+        className="w-[100%] px-2 py-1 rounded-lg outline outline-2 outline-blue-300"
         value={value}
         onChange={handleChange}
         required={isRequired}
