@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 
-import { axios } from "@/utils-frontend";
-import { useMemberSearch, useModal } from "@/hook";
+import { axios, localStorage } from "@/utils-frontend";
+import { useMemberSearch, useModal } from "@/hooks";
 import { Filter, Form, Spinner, StickyNote } from "@/components";
 import { Button, Input } from "@/components/base";
 
 import type { ITodoDocumentProps, ITodoDocumentUpdateProps } from "@/interfaces/global";
 import type { IFilter } from "@/interfaces/frontend";
+import { useRouter } from "next/navigation";
 
 interface StatusQuery {
   completed: string;
@@ -23,6 +24,9 @@ const statusQuery: StatusQuery = {
 };
 
 export default function TodoListPage(): JSX.Element {
+  // * router
+  const router = useRouter();
+
   // * todo list state
   const [todoList, setTodoList] = useState<ITodoDocumentProps[]>([]);
 
@@ -157,6 +161,17 @@ export default function TodoListPage(): JSX.Element {
           </div>
         </div>
       </main>
+
+      {/* logout */}
+      <Button.Default
+        className="fixed right-12 top-12 bg-red-500 hover:bg-red-600 active:bg-red-700"
+        onClick={() => {
+          localStorage.removeAccessToken();
+          router.push("/login");
+        }}
+      >
+        Logout
+      </Button.Default>
 
       {/* modal */}
       <CustomModal />

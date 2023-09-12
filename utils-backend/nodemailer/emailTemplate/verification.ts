@@ -1,3 +1,5 @@
+import { config } from "@/utils-backend";
+
 export const verificationEmailTemplate = (name: string, token: string) => {
   return `
     <div>
@@ -9,7 +11,7 @@ export const verificationEmailTemplate = (name: string, token: string) => {
       Verification is easy! Simply click the link below to confirm your email:
     </p>
 
-    <a href="http://localhost:3030/verify-email/${token}">Click here verify your email</a>
+    <a href="${config.url.webUrl}/verify-email/${token}">Click here verify your email</a>
 
     <p>If you did not register for an account on Todo List, please disregard this email.</p>
 

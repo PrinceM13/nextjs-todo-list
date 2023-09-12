@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Svgs } from "@/assets";
-import { useModal } from "@/hook";
+import { useModal } from "@/hooks";
 import { Spinner } from "@/components";
 import { Button } from "@/components/base";
 
@@ -33,7 +33,7 @@ export default function VerifyPage(): JSX.Element {
       setIsLoading(true);
 
       try {
-        const res = await axios.patch(`http://localhost:3030/api/auth/${token}/verify-email`);
+        const res = await axios.patch(`/auth/${token}/verify-email`);
         console.log(res);
         if (res.status === 200) {
           setIsSuccess(true);

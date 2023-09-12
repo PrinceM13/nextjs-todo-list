@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import FormFrame from "../FormFrame";
 import { axios } from "@/utils-frontend";
-import { useModal } from "@/hook";
+import { useModal } from "@/hooks";
 import { Layout, Spinner } from "@/components";
 import { Button, Input } from "@/components/base";
 

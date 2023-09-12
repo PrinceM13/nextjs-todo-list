@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+
 import { config } from "@/utils-backend";
 import { verificationEmailTemplate } from "./emailTemplate";
 
@@ -31,7 +32,7 @@ export const sendVerificationEmail = async (to: string, name: string, token: str
 export const sendResetPasswordEmail = async (to: string, token: string) => {
   const subject = "Reset Your Todo List Password";
   const html = `
-        <p>Click <a href="http://localhost:3000/reset-password?token=${token}">here</a> to reset your password.</p>
+        <p>Click <a href="${config.url.webUrl}/reset-password?token=${token}">here</a> to reset your password.</p>
     `;
 
   await sendEmail(to, subject, html);

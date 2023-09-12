@@ -7,4 +7,4 @@ import * as errorResponse from "./errorResponse";
 
 import * as nodemailer from "./nodemailer";
 
-export { model, config, connection, controller, errorResponse, nodemailer };
+export { config, model, connection, controller, errorResponse, nodemailer };
