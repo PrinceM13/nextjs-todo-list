@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { converter } from "@/utils";
 import { axios } from "@/utils-frontend";
+import { useMemberSearch } from "@/hook";
 import { Filter, Spinner, StickyNote } from "@/components";
 import { Button, Input } from "@/components/base";
 
@@ -29,19 +29,20 @@ export default function TodoListPage(): JSX.Element {
   // * loading state
   const [isLoading, setIsLoading] = useState(true);
 
-  // * filter state
-  const [inputMemberFilter, setInputMemberFilter] = useState<string>("");
-  const [nameList, setNameList] = useState<IFilter.INameList[]>([]);
-  // * selected member state
-  const [searchNames, setSearchNames] = useState<string[]>([]);
-  // * use for query
+  // * use for status filter
   const [statusFilter, setStatusFilter] = useState<IFilter.TStatusFilter>("all");
-  const [nameFilter, setNameFilter] = useState<string>("");
+  // * use for member search
+  const [inputSearch, setInputSearch] = useState<string>("");
+  const { nameQuery, onInputSearchChange, InputMemberSearch } = useMemberSearch();
+  const handleInputSearchChange = (value: string) => {
+    setInputSearch(value);
+    onInputSearchChange(value);
+  };
 
   // * fetch todo list
   const fetchTodoList = async () => {
     try {
-      const res = await axios(`/todo/all?name=${nameFilter}&status=${statusQuery[statusFilter]}`);
+      const res = await axios(`/todo/all?name=${nameQuery}&status=${statusQuery[statusFilter]}`);
       setTodoList(res.data.data);
     } catch (error) {
       console.log(error);
@@ -53,30 +54,13 @@ export default function TodoListPage(): JSX.Element {
   useEffect(() => {
     setIsLoading(true);
     fetchTodoList();
-  }, [statusFilter, nameFilter]);
-
-  useEffect(() => {
-    const fetchNameList = async () => {
-      try {
-        const res = await axios(`/member/name-list?name=${inputMemberFilter}`);
-        setNameList(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const id = setTimeout(() => {
-      fetchNameList();
-    }, 300);
-
-    return () => clearTimeout(id);
-  }, [inputMemberFilter]);
+  }, [statusFilter, nameQuery]);
 
   // * search todo list (currently use auto search instead of search button)
-  const handleSearchClick = () => {
-    const name = converter.convertArrayToStringWithComma(searchNames);
-    setNameFilter(name);
-  };
+  // const handleSearchClick = () => {
+  //   const name = converter.convertArrayToStringWithComma(searchNames);
+  //   setNameFilter(name);
+  // };
 
   return (
     <>
@@ -88,33 +72,15 @@ export default function TodoListPage(): JSX.Element {
           <div>Member</div>
 
           {/* search part */}
-          <>
-            {/* input search */}
-            <div className="relative w-[350px]">
-              <Input.TextWithLabel
-                initialValue={inputMemberFilter}
-                onChange={(value) => setInputMemberFilter(value)}
-              />
+          <div className="relative w-[350px]">
+            <Input.TextWithLabel
+              initialValue={inputSearch}
+              onChange={(value) => handleInputSearchChange(value)}
+            />
+            <InputMemberSearch onClearInput={() => setInputSearch("")} />
+          </div>
 
-              {/* selected member */}
-              <Filter.SelectedMember
-                searchNames={searchNames}
-                setSearchNames={setSearchNames}
-                setNameFilter={setNameFilter}
-              />
-
-              {/* recommended name list from database */}
-              <Filter.NameList
-                nameList={nameList}
-                searchNames={searchNames}
-                setSearchNames={setSearchNames}
-                setInputMemberFilter={setInputMemberFilter}
-                setNameFilter={setNameFilter}
-              />
-            </div>
-          </>
-
-          <Button.Default className="text-xs py-1.5" onClick={handleSearchClick}>
+          <Button.Default className="text-xs py-1.5" onClick={() => {}}>
             Search
           </Button.Default>
         </section>

@@ -41,7 +41,6 @@ export default function TodoItemForm({
 
   // * handle todo item change
   const handleTodoItemChange = (name: string, value: string | boolean) => {
-    console.log(name, value);
     setUpdateItem({ ...updateItem, [name]: value });
   };
 

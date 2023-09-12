@@ -1,26 +1,10 @@
-import { converter } from "@/utils";
-
-export default function FilterSelectedMember({
+export default function SelectedMember({
   searchNames,
-
-  setSearchNames,
-  setNameFilter
+  onDeleteMember
 }: {
   searchNames: string[];
-  setSearchNames: (searchNames: string[]) => void;
-  setNameFilter: (nameFilter: string) => void;
+  onDeleteMember: (name: string) => void;
 }): JSX.Element {
-  // * delete selected member
-  const onDeleteMember = (name: string) => {
-    setSearchNames(searchNames.filter((searchName) => searchName !== name));
-
-    // * auto search after delete member
-    const newName = converter.convertArrayToStringWithComma(
-      searchNames.filter((searchName) => searchName !== name)
-    );
-    setNameFilter(newName);
-  };
-
   return (
     <>
       {searchNames.length > 0 && (

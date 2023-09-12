@@ -1,5 +1,7 @@
-import NameList from "./NameList";
+// import NameList from "./NameList";
 import StatusBar from "./StatusBar";
-import SelectedMember from "./SelectedMember";
+// import SelectedMember from "./SelectedMember";
 
-export { NameList, StatusBar, SelectedMember };
+import * as Member from "./Member";
+
+export { StatusBar, Member };
