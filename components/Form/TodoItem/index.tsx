@@ -76,7 +76,7 @@ export default function TodoItemForm({
 
   return (
     <>
-      <section className="flex flex-col gap-8 max-w-[500px] w-[95%] lg:w-[60%] self-center px-6 py-4 md:px-12 md:py-8 lg:px-16 lg:py-12 rounded-xl shadow-xl bg-yellow-200">
+      <section className="flex flex-col gap-8 max-w-[500px] w-[95%] self-center px-6 py-4 md:px-12 md:py-8 lg:px-16 lg:py-12 rounded-xl shadow-xl bg-yellow-200">
         <div className="flex justify-between">
           <div className="flex gap-2 items-center">
             {/* isCompleted */}

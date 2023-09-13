@@ -89,13 +89,13 @@ export default function LoginForm(): JSX.Element {
           />
           <Link
             href={url + "/forgot-password"}
-            className="text-blue-600 underline cursor-pointer self-end"
+            className="text-blue-600 underline cursor-pointer self-end text-xs md:text-sm lg:text-base"
           >
             Forgot Password
           </Link>
         </Layout.FormInput>
         <Button.Default type="submit">Sign In</Button.Default>
-        <p>
+        <p className="text-xs md:text-sm lg:text-base">
           {`Don't have an account? `}
           <Link href={url + "/sign-up"} className="text-blue-600 underline cursor-pointer">
             Sign Up

@@ -91,21 +91,18 @@ export default function SignUpForm(): JSX.Element {
         <Layout.FormInput>
           <Input.TextWithLabel
             type="email"
-            labelWidth="10rem"
             label="Email"
             initialValue={registerInput.email}
             isRequired={true}
             onChange={(value) => onInputChange("email", value)}
           />
           <Input.TextWithLabel
-            labelWidth="10rem"
             label="Password"
             initialValue={registerInput.password}
             isRequired={true}
             onChange={(value) => onInputChange("password", value)}
           />
           <Input.TextWithLabel
-            labelWidth="10rem"
             label="Confirm Password"
             initialValue={registerInput.confirmPassword}
             isRequired={true}
@@ -113,7 +110,6 @@ export default function SignUpForm(): JSX.Element {
             error={isPasswordMatch ? "" : "password not match"}
           />
           <Input.TextWithLabel
-            labelWidth="10rem"
             label="Display Name"
             initialValue={registerInput.displayName}
             isRequired={true}
@@ -121,7 +117,7 @@ export default function SignUpForm(): JSX.Element {
           />
         </Layout.FormInput>
         <Button.Default type="submit">Sign Up</Button.Default>
-        <p>
+        <p className="text-xs md:text-sm lg:text-base">
           Already have an account?{" "}
           <Link href={url + "/login"} className="text-blue-600 underline cursor-pointer">
             Sign In

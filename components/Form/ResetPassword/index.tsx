@@ -96,14 +96,12 @@ export default function ResetPasswordForm(): JSX.Element {
       <FormFrame onSubmit={handleSubmit}>
         <Layout.FormInput>
           <Input.TextWithLabel
-            labelWidth="10rem"
             label="Password"
             initialValue={resetInput.password}
             isRequired={true}
             onChange={(value) => onInputChange("password", value)}
           />
           <Input.TextWithLabel
-            labelWidth="10rem"
             label="Confirm Password"
             initialValue={resetInput.confirmPassword}
             isRequired={true}
