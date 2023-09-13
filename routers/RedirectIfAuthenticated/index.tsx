@@ -15,10 +15,12 @@ export default function RedirectIfAuthenticated({
 
   // * loaded state
   const [isLoaded, setIsLoaded] = useState(false);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     // * check if the access token is present
     const accessToken: string | null = localStorage.getAccessToken();
+    setAccessToken(accessToken);
 
     // * if the access token is present, redirect to the todo list page
     if (accessToken) {
@@ -28,5 +30,5 @@ export default function RedirectIfAuthenticated({
     setIsLoaded(true);
   }, []);
 
-  return <>{isLoaded && children}</>;
+  return <>{isLoaded && !accessToken && children}</>;
 }

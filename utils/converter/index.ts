@@ -12,9 +12,38 @@ export const convertArrayToStringWithComma = (array: string[]): string => {
 };
 
 // convert date to locale string
-export const dateToString = (date: Date | null) =>
-  new Date(date ?? "").toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  });
+export const dateToString = (date: Date | null) => {
+  if (date) {
+    const options: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    };
+
+    const dateFormat: Date = new Date(date);
+    const mapMonth: string[] = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    const dateString: string =
+      dateFormat.getDate() +
+      " " +
+      mapMonth[dateFormat.getMonth() - 1] +
+      " " +
+      dateFormat.getFullYear();
+    return dateString;
+  } else {
+    return "";
+  }
+};

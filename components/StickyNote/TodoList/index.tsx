@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { axios } from "@/utils-frontend";
 import { Input } from "@/components/base";
+import { compare, converter } from "@/utils";
 
 import type { ITodoDocumentProps } from "@/interfaces/global";
 
@@ -51,24 +52,49 @@ export default function TodoListStickyNote({
       {todoList.map((todo, idx) => (
         <div
           key={idx}
-          className="flex flex-col gap-2 p-8 rounded-xl bg-yellow-200 hover:bg-yellow-300 shadow-xl cursor-pointer"
-          onClick={() => router.push(`/todo-list/${todo._id}`)}
+          className="flex flex-col gap-4 p-8 rounded-xl bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 shadow-xl cursor-pointer"
+          onClick={() => router.push(`/todo-list/${todo?._id}`)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
             className={`flex-1 flex gap-2 flex-grow-0 justify-center items-center rounded-lg py-1 cursor-default ${
-              todo.isCompleted ? "bg-green-300" : "bg-red-300"
+              todo?.isCompleted ? "bg-green-300" : "bg-red-300"
             }`}
           >
             <Input.CheckBox
               initialValue={todo.isCompleted}
               onChange={(value) => updateIsCompleted(todo._id ?? "", value)}
             />
-            <div>{todo.isCompleted ? "completed" : "incomplete"}</div>
+            <div>{todo?.isCompleted ? "completed" : "incomplete"}</div>
           </div>
-          <div>{todo.topic}</div>
-          {todo && todo?.member?.map((member, idx) => <div key={idx}>{member.displayName}</div>)}
-          <div>{todo.dueDate}</div>
+          <div className="font-bold text-xl">{todo.topic}</div>
+          {todo && (
+            <div>
+              <label>member:</label>
+              <div className="flex flex-wrap gap-2 border-2 border-yellow-400 rounded-lg p-2">
+                {todo?.member?.map((member, idx) => (
+                  <div
+                    key={idx}
+                    className="flex justify-center items-center gap-2 w-fit px-2 py-1 cursor-default text-xs bg-neutral-300 rounded-full shadow-md"
+                  >
+                    <div>{member?.displayName}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {todo.dueDate && (
+            <div className="flex gap-2">
+              <label>due:</label>
+              <div
+                className={`${
+                  compare.isOverdue(todo.dueDate) && !todo.isCompleted ? "text-red-600" : ""
+                }`}
+              >
+                {converter.dateToString(new Date(todo?.dueDate))}
+              </div>
+            </div>
+          )}
         </div>
       ))}
     </section>
