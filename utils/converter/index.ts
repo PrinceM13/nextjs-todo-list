@@ -37,11 +37,7 @@ export const dateToString = (date: Date | null) => {
     ];
 
     const dateString: string =
-      dateFormat.getDate() +
-      " " +
-      mapMonth[dateFormat.getMonth() - 1] +
-      " " +
-      dateFormat.getFullYear();
+      dateFormat.getDate() + " " + mapMonth[dateFormat.getMonth()] + " " + dateFormat.getFullYear();
     return dateString;
   } else {
     return "";
