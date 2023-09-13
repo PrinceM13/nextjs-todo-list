@@ -11,10 +11,12 @@ export default function PrivateRoute({ children }: { children: React.ReactNode }
 
   // * loaded state
   const [isLoaded, setIsLoaded] = useState(false);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     // * check if the access token is present
     const accessToken: string | null = localStorage.getAccessToken();
+    setAccessToken(accessToken);
 
     // * if the access token is not present, redirect to the login page
     if (!accessToken) {
@@ -24,5 +26,5 @@ export default function PrivateRoute({ children }: { children: React.ReactNode }
     setIsLoaded(true);
   }, []);
 
-  return <>{isLoaded && children}</>;
+  return <>{isLoaded && accessToken && children}</>;
 }

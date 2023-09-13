@@ -12,9 +12,9 @@ export default function LabelFrame({
   labelWidth = ""
 }: LabelFrameProps): JSX.Element {
   return (
-    <div className="flex justify-between gap-4">
+    <div className="flex justify-between gap-4 text-xs md:text-sm lg:text-base">
       {label && (
-        <label className="flex-shrink-0 w-24" style={{ width: labelWidth }}>
+        <label className="flex-shrink-0 w-16 lg:w-24" style={{ width: labelWidth }}>
           {label}
         </label>
       )}

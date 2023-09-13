@@ -59,25 +59,28 @@ export default function VerifyPage(): JSX.Element {
       <main className="w-screen min-h-screen flex flex-col justify-center items-center">
         {!isLoading && (
           <>
-            <div className="flex flex-col justify-center items-center gap-8">
+            <div className="flex flex-col justify-center items-center gap-8 px-8 w-screen">
               {isSuccess ? (
                 <>
-                  <div className="text-5xl">Congratulations !</div>
-                  <div className="flex gap-16 justify-center items-center">
+                  <div className="text-3xl lg:text-5xl">Congratulations !</div>
+                  <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 justify-center items-center">
                     <Svgs.Check />
-                    <p className="w-[50%] text-lg">
+                    <p className="w-[90%] md:w-[65%] lg:w-[50%] text-lg">
                       Your email address has been successfully verified. You can now log in to your
                       account and start exploring Todo List.
                     </p>
                   </div>
-                  <Button.Default className="text-2xl" onClick={() => router.push("/login")}>
+                  <Button.Default
+                    className="text-lg lg:text-2xl"
+                    onClick={() => router.push("/login")}
+                  >
                     Back to Sign In
                   </Button.Default>
                 </>
               ) : (
-                <div className="text-3xl flex gap-16 justify-center items-center">
+                <div className="text-xl lg:text-3xl flex flex-col lg:flex-row gap-16 justify-center items-center w-full lg:w-auto">
                   <Svgs.Cross />
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col text-base md:text-2xl lg:text-3xl items-center gap-4 w-[80%]">
                     <p>Something went wrong !</p>
                     <p>please contact our support team. </p>
                     <p>

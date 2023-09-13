@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { axios, localStorage } from "@/utils-frontend";
 import { useMemberSearch, useModal } from "@/hooks";
@@ -9,7 +10,6 @@ import { Button, Input } from "@/components/base";
 
 import type { ITodoDocumentProps, ITodoDocumentUpdateProps } from "@/interfaces/global";
 import type { IFilter } from "@/interfaces/frontend";
-import { useRouter } from "next/navigation";
 
 interface StatusQuery {
   completed: string;
@@ -141,7 +141,7 @@ export default function TodoListPage(): JSX.Element {
         />
 
         {/* add todo */}
-        <div className="w-20 h-20 rounded-full fixed right-12 bottom-12 cursor-pointer shadow-xl bg-blue-200 hover:bg-blue-300 active:bg-blue-400 text-blue-700 flex justify-center items-center">
+        <div className="w-20 h-20 rounded-full fixed right-4 bottom-4 md:right-8 md:bottom-8 lg:right-12 lg:bottom-12 cursor-pointer shadow-xl bg-blue-200 hover:bg-blue-300 active:bg-blue-400 text-blue-700 flex justify-center items-center">
           <div
             onClick={() =>
               openModal({
@@ -164,7 +164,7 @@ export default function TodoListPage(): JSX.Element {
 
       {/* logout */}
       <Button.Default
-        className="fixed right-12 top-12 bg-red-500 hover:bg-red-600 active:bg-red-700"
+        className="fixed text-xs md:text-base lg:text-lg right-4 top-4 md:right-8 md:top-8 lg:right-12 lg:top-12 bg-red-500 hover:bg-red-600 active:bg-red-700"
         onClick={() => {
           localStorage.removeAccessToken();
           router.push("/login");
