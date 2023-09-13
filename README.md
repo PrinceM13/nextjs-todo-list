@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to Todo List Application
 
-## Getting Started
+# Installation and setting up ----------------------------------------------
 
-First, run the development server:
+    1: Clone the Repository: Copy and paste the following command into your terminal and press Enter to clone the repository to your local machine:
+        git clone https://github.com/PrinceM13/nextjs-todo-list.git
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+    2: Navigate to Repository Folder: Change your current directory to the repository folder by running this command in your terminal:
+        cd nextjs-todo-list
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    3. Create .env file in /nextjs-todo-list with following items:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+        # for frontend -----------
+        NEXT_PUBLIC_API_URL="http://localhost:3030/api" # or change to you domain if you want to deploy on sever (ex. https://www.todo-list.com/api)
+        NEXT_PUBLIC_WEB_URL_URL="http://localhost:3030" # or change to you domain if you want to deploy on sever (ex. https://www.todo-list.com)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+        # for backend ------------
+        # database
+        DB_URL={'please fill with url for connection to you mongodb'}
+        # jwt
+        JWT_EXPIRES_IN={'please fill with expiration date'}
+        JWT_SECRET_KEY={'please fill with your own secret key'}
+        # email
+        # -- nodemailer
+        EMAIL={'please fill with your own gmail'}
+        EMAIL_PASSWORD={'please fill with your app password from google account'}
+        # -- resend (https://resend.com/)
+        RESEND_EMAIL_API_KEY={'please fill with api-key from resend'}
 
-## Learn More
+    4: Install Dependencies: Install the necessary project dependencies by running the following command:
+        npm install
 
-To learn more about Next.js, take a look at the following resources:
+    4: Start the Application: Launch the Todo List Application on your local server with this command:
+        npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# --------------------------------------------------------------------------
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Go live with Vercel ------------------------------------------------------
 
-## Deploy on Vercel
+    please check live version of application with following link:
+        https://nextjs-todo-list-theta.vercel.app/todo-list
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    note: sending email with nodemailer is not working with vercel so can not play with following features:
+        1. verify email
+        2. forgot password
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    # but you can still play with offline version, just update .env file
+
+# --------------------------------------------------------------------------
