@@ -38,6 +38,76 @@ export default async function showAllTodosWithFilters({
     documents = (await model.collection[modelName].find(query)) as ITodoDocumentProps[];
   }
 
+  // * aggregattion quiz
+  // * ------------------------------------------------
+
+  const aggregateCount = async () => {
+    return await model.collection[modelName].aggregate([
+      {
+        $unwind: { path: "$member" }
+      },
+      {
+        $project: { name: "$member.displayName" }
+      },
+      {
+        $group: { _id: "$name", count: { $sum: 1 } }
+      }
+    ]);
+  };
+  console.log("No.1 ------------------------");
+  console.log(await aggregateCount());
+
+  // * aggregate to get document that 'dueDate' is between Sep 2023 adn Dec 2023
+  const aggregateDueDate = async (startDate: Date, endDate: Date) => {
+    return await model.collection[modelName].aggregate([
+      {
+        $match: {
+          dueDate: {
+            $gte: startDate,
+            $lte: endDate
+          }
+        }
+      },
+      { $sort: { dueDate: 1 } },
+      {
+        $project: {
+          _id: 0, // * specify field to show, 0 is hide, 1 is show
+          topic: 1,
+          view: 1
+        }
+      }
+    ]);
+  };
+
+  console.log("No.2 ------------------------");
+  console.log(
+    " Sep 2023 - Dec 2023",
+    await aggregateDueDate(new Date("2023-09-01"), new Date("2023-12-31"))
+  );
+
+  // * aggregate to get document that 'dueDate' is pass and group by displayName and count for each displayName
+  const aggregatePassDueDate = async () => {
+    return await model.collection[modelName].aggregate([
+      {
+        $match: { dueDate: { $lt: new Date() } }
+      },
+      {
+        $unwind: { path: "$member" }
+      },
+      {
+        $project: { name: "$member.displayName" }
+      },
+      {
+        $group: { _id: "$name", count: { $sum: 1 } }
+      }
+    ]);
+  };
+
+  console.log("No.3 ------------------------");
+  console.log(await aggregatePassDueDate());
+
+  // * ------------------------------------------------
+
   // * return all documents with status code 200
   return NextResponse.json({ data: documents }, { status: 200 });
 }
