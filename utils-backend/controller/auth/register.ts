@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
-import { connection, model, nodemailer } from "@/utils-backend";
+import { connection, model, sendEmail } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
 import type { IController } from "@/interfaces/backend";
@@ -44,8 +44,8 @@ export default async function register({
   // * send verification email
   try {
     // * don't need to await for sending email, if wrong email is provided, user should figure it out by themselves
-    // await nodemailer.sendVerificationEmail(
-    nodemailer.sendVerificationEmail(
+
+    sendEmail.nodemailer.sendVerificationEmail(
       createdDocument.email,
       createdDocument.displayName ?? "",
       createdDocument.verificationToken ?? ""
@@ -53,7 +53,7 @@ export default async function register({
   } catch (error) {
     console.error(error);
     // * user should figure it out by themselves, so don't need to return error response with status code 400
-    // return NextResponse.json({ message: "Error sending verification email" }, { status: 400 });
+    return NextResponse.json({ message: "Error sending verification email" }, { status: 400 });
   }
 
   // * return response with status code 201

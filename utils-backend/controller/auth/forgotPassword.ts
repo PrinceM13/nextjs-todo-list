@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
-import { connection, model, nodemailer } from "@/utils-backend";
+import { connection, model, sendEmail } from "@/utils-backend";
 import { NextResponse } from "next/server";
 
 import type { IController } from "@/interfaces/backend";
@@ -56,7 +56,7 @@ export default async function forgotPassword({
     if (!updatedDocument) {
       return NextResponse.json({ message: "Error sending verification email" }, { status: 400 });
     }
-    nodemailer.sendResetPasswordEmail(
+    sendEmail.nodemailer.sendResetPasswordEmail(
       updatedDocument.email ?? "",
       updatedDocument.displayName ?? "",
       updatedDocument.resetPasswordToken ?? ""

@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 
 import { config } from "@/utils-backend";
-import { verificationEmailTemplate } from "./emailTemplate";
-import { resetPasswordEmailTemplate } from "./emailTemplate/resetPassword";
+import { verificationEmailTemplate } from "../emailTemplate";
+import { resetPasswordEmailTemplate } from "../emailTemplate/resetPassword";
 
 export const transporter = nodemailer.createTransport({
   service: "gmail",
