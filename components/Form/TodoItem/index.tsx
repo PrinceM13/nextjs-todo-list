@@ -137,7 +137,7 @@ export default function TodoItemForm({
 
           {/* search part */}
           <div className="flex gap-4 text-xs md:text-sm lg:text-base">
-            <div className="flex-shrink-0 w-16 lg:w-24">Member</div>
+            <div className="flex-shrink-0 w-16 w-16 lg:w-36">Member</div>
             <div className="relative w-full">
               <Input.TextWithLabel
                 initialValue={inputSearch}

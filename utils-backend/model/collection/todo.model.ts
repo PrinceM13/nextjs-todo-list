@@ -4,7 +4,7 @@ const todoSchema = new Schema(
   {
     topic: { type: String, required: true },
     detail: String,
-    dueDate: String,
+    dueDate: Date,
     member: [
       {
         _id: { type: Types.ObjectId },
