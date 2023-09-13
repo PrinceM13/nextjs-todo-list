@@ -31,6 +31,12 @@ export default async function getDocumentById({
     return NextResponse.json({ message: "Document not found" }, { status: 404 });
   }
 
+  // * increment views
+  if (modelName === "TodoModel")
+    await model.collection[modelName].findByIdAndUpdate(new Types.ObjectId(id), {
+      $inc: { view: 1 }
+    });
+
   // * return all documents with status code 200
   return NextResponse.json({ data: document }, { status: 200 });
 }
